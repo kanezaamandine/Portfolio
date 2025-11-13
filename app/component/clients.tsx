@@ -1,0 +1,81 @@
+import { Star } from "lucide-react";
+import Image from "next/image";
+
+const clients = [
+  {
+    message: "Amandine is a passionate designer with a great eye for detail and user experience. Her work is truly exceptional and has significantly improved our product's usability.",
+    profile: "/images/image.png",
+    name: "Alliance",
+    role: "Product Manager"
+  },
+  {
+    message: "Her designs are thoughtful and easy to work with — she makes collaboration effortless. The attention to detail and user-centered approach is remarkable.",
+    profile: "/images/image.png",
+    name: "Emmanuel",
+    role: "Frontend Developer"
+  },
+  {
+    message: "Amandine turned my ideas into a clean, modern design that perfectly fit my brand. Creative, reliable, and always delivers on time. Highly recommended!",
+    profile: "/images/image.png",
+    name: "Samuel",
+    role: "Startup Founder"
+  },
+];
+
+export default function Clients() {
+  return (
+    <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-black">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+            What My <span className="text-[#FF451A]">Clients Say</span>
+          </h2>
+          <div className="w-16 h-1 bg-white mx-auto rounded-full"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {clients.map((client, index) => (
+            <div
+              key={index}
+              className="relative group bg-gradient-to-br from-[#0F0F0F] to-[#1A1A1A] rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl hover:shadow-[#FF451A]/10 transition-all duration-300 border border-white/5"
+            >
+              <div className="flex mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star 
+                    key={i} 
+                    className="text-[#E8563F] fill-current" 
+                    size={18} 
+                  />
+                ))}
+              </div>
+              
+              <p className="text-white/80 text-sm md:text-base leading-relaxed mb-6">
+                "{client.message}"
+              </p>
+              
+              <div className="flex items-center gap-4 pt-4 border-t border-white/5">
+                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#FF451A]/30">
+                  <Image
+                    src={client.profile}
+                    alt={`${client.name}'s profile`}
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
+                </div>
+                <div>
+                  <h4 className="text-white font-medium">{client.name}</h4>
+                  <p className="text-[#6C6C6C] text-sm">{client.role}</p>
+                </div>
+              </div>
+              
+              <div className="absolute -top-4 -right-4 h-16 w-16 bg-[#FF451A] rounded-full flex items-center justify-center text-white text-4xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                "
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
