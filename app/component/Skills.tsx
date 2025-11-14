@@ -10,8 +10,8 @@ const skills = [
 ];
 
 const otherSkills = [
-  'HTML', 'CSS', 'UI/UX DESIGNING', 'C++', 'NEXT', 'REACT',
-  'MACHINE LEARNING', 'AI', 'VIDEO EDITING'
+  'HTML', 'CSS', 'UI/UX DESIGNING', 'C++', 'VIDEO EDITING','NEXT', 'REACT',
+  'MACHINE LEARNING', 'AI'
 ];
 
 const progressSkills = [
@@ -89,7 +89,8 @@ const ProgressBar = ({ name, value }: { name: string; value: number }) => {
           animate={{ width: `${value}%` }}
           transition={{ duration: 1.5, ease: 'easeOut' }}
           onUpdate={(latest) => {
-            const widthValue = typeof latest.width === 'number' ? latest.width : parseFloat(latest.width);
+            const widthValue =
+              typeof latest.width === 'number' ? latest.width : parseFloat(latest.width);
             progress.set(widthValue);
           }}
         />
@@ -100,8 +101,32 @@ const ProgressBar = ({ name, value }: { name: string; value: number }) => {
 
 export default function Skills() {
   return (
-    <div className="p-6 py-16 bg-[#0A0A0A]">
-      <div className="container mx-auto">
+    <div className="relative p-6 py-16 bg-[#0F0F0F] overflow-hidden">
+      
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={`h-${i}`}
+          className="absolute h-[2px] bg-[#6689A712]"
+          style={{
+            top: `${(100 / 2) * (i + 1)}%`,
+            left: "0",
+            right: "0",
+          }}
+        />
+      ))}
+
+      {[...Array(7)].map((_, i) => (
+        <div
+          key={`v-${i}`}
+          className="absolute top-0 bottom-0 w-[2px] bg-[#6689A712]"
+          style={{
+            left: `calc(${(100 / 8) * (i + 1)}%)`,
+          }}
+        />
+      ))}
+
+      <div className="relative container max-w-5xl mx-auto z-10">
+
         <div className="flex flex-col justify-center items-center gap-2 mb-16">
           <h3 className="font-bold text-white text-2xl">
             My Personal <span className="text-[#FF451A]">Skills</span>
@@ -129,12 +154,13 @@ export default function Skills() {
           <h3 className="font-bold text-white text-2xl  mb-6 text-center">
             Other <span className="text-[#FF451A]">Skill Areas</span>
           </h3>
+
           <div className="grid md:grid-cols-2 gap-20 mt-8">
             <div className="flex flex-wrap gap-x-1 justify-center md:justify-end">
               {otherSkills.map((tag, index) => (
                 <span
                   key={index}
-                  className="bg-[#FF451A] text-white font-semibold px-3 py-2 rounded-md text-xs h-8 shadow-sm hover:scale-105 transition"
+                  className="bg-[#FF451A] text-white font-semibold px-8 py-2 rounded-md text-xs h-8 shadow-sm hover:scale-105 transition"
                 >
                   {tag}
                 </span>
@@ -148,8 +174,8 @@ export default function Skills() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
 }
-

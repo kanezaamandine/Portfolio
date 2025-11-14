@@ -4,10 +4,10 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from "next/image";
 
 const cardData = [
-  { id: 1, title: "Product Designer", quote: "Jenny's exceptional product design ensured our website's success. Highly recommended!", client: "Client A", imagePath: "/images/image2.png" },
-  { id: 2, title: "UI/UX Expert", quote: "Working with Jenny was a smooth experience. She delivered top-notch user experience flows.", client: "Client B", imagePath: "/images/image2.png" },
-  { id: 3, title: "Brand Strategist", quote: "Transformed our brand identity! The results exceeded expectations.", client: "Client C", imagePath: "/images/image2.png" },
-  { id: 4, title: "Creative Lead", quote: "Innovative solutions and great attention to detail. A pleasure to collaborate with.", client: "Client D", imagePath: "/images/image2.png" },
+  { id: 1, title: "", quote: "", client: "", imagePath: "/images/image2.png" },
+  { id: 2, title: "", quote: "", client: "", imagePath: "/images/image2.png" },
+  { id: 3, title: "", quote: "", client: "", imagePath: "/images/image2.png" },
+  { id: 4, title: "", quote: "", client: "", imagePath: "/images/image2.png" },
 ];
 
 interface CardData {
@@ -28,10 +28,10 @@ const Card = ({ data, style }: CardProps) => (
         className="absolute w-full h-full rounded-2xl shadow-xl overflow-hidden transition-all duration-500 ease-out will-change-transform"
         style={style}
     >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10 flex flex-col justify-end p-6">
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent z-10 flex flex-col justify-end p-6">
             <h3 className="text-white text-xl md:text-2xl font-bold mb-2">{data.title}</h3>
             <p className="text-white/90 text-sm md:text-base mb-3">{data.quote}</p>
-            <p className="text-[#EA3402] text-sm font-medium">— {data.client}</p>
+            <p className="text-[#EA3402] text-sm font-medium">{data.client}</p>
         </div>
         <Image
             src={data.imagePath}
@@ -109,7 +109,6 @@ export default function About() {
     setTimeout(() => setCanScroll(true), 600); 
   }, [canScroll, nextCard, prevCard]);
 
-  // Wheel event handling is now done through the onWheel prop in the JSX
 
   const getCardStyle = (index: number): React.CSSProperties => {
     let visualOrder = (index - currentIndex + totalCards) % totalCards;
@@ -148,7 +147,7 @@ export default function About() {
 
   return (
     <div 
-      className="bg-black py-10 md:py-16 font-inter min-h-[80vh]"
+      className="bg-[#0F0F0F] py-10 md:py-16 font-inter min-h-[80vh]"
       id="about"
     >
       
@@ -166,7 +165,10 @@ export default function About() {
         ideas into interactive experience that truly connect with users.
       </p>
       
-      <hr className="w-11/12 bg-[#4e4d4d] h-0.5 mt-10 mx-auto" />
+      <div className="flex justify-center my-8">
+        <div className="w-5xl h-0.5 bg-[#303030]"></div>
+      </div>
+      
       
       <div className="flex flex-wrap justify-center items-center mt-8 mb-10 md:mb-16 gap-3 md:gap-8 lg:gap-16 px-4">
         {skillLabels.map((label, index) => {
@@ -179,16 +181,18 @@ export default function About() {
                       setActiveLinkIndex(index);
                     }}
                     className={`
-                        font-medium text-sm sm:text-base md:text-lg lg:text-xl px-3 py-1.5 md:px-4 md:py-2 rounded-full transition-all duration-300 flex items-center
-                        ${isActive 
-                          ? 'text-white bg-[#EA3402] shadow-lg' 
-                          : 'text-white/80 hover:text-white hover:bg-white/10'}
-                    `}
+                      px-4 py-2 text-3xl sm:text-base transition-all duration-300 relative
+                      ${isActive 
+                        ? 'text-white font-medium' 
+                        : 'text-[#FFFFFF99] hover:text-white'
+                      }`}
                 >
                     {isActive && (
-                        <span className="w-2 h-2 rounded-full bg-white mr-2"></span>
+                      <span className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-[#EA3402] rounded-full"></span>
                     )}
-                    {label}
+                    <span className={`relative ${isActive ? 'border-b-2 border-[#EA3402] pb-1' : ''}`}>
+                      {label}
+                    </span>
                 </button>
             );
         })}

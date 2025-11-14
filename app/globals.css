@@ -3,13 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-candal);
-  --font-caveat: var(--font-caveat);
+/* Apply Jost as the default font */
+:root, [data-theme] {
+  --font-jost: 'Jost', var(--font-sans);
+  --font-caveat: 'Caveat', cursive;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +19,18 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), sans-serif;
+@layer base {
+  html {
+    font-family: var(--font-jost);
+  }
+  
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: inherit;
+  }
+  
+  .font-jost {
+    font-family: var(--font-jost, var(--font-sans));
+  }
 }

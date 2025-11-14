@@ -8,10 +8,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        candal: ['var(--font-sans)'],
+        sans: ['var(--font-jost)'],
+        jost: ['var(--font-jost)'],
         caveat: ['var(--font-caveat)'],
       },
     },
   },
   plugins: [],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 }

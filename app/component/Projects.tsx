@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Projects() {
     return (
-        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto bg-[#0F0F0F]">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
                     Featured <span className="text-[#FF451A]">Projects</span>
@@ -15,7 +15,7 @@ export default function Projects() {
                 <div className="w-full lg:w-1/2 space-y-4 lg:space-y-6 order-2 lg:order-1">
                     <div className="bg-[#EA3402] rounded-md py-2 px-3 w-fit">
                         <p className="flex items-center gap-2">
-                            <Zap size={14} color='black' fill='black' className="flex-shrink-0" />
+                            <Zap size={14} color='black' fill='black' className="shrink-0" />
                             <span className='text-sm sm:text-base text-black font-bold'>Smart journeys</span>
                         </p>
                     </div>
@@ -29,7 +29,7 @@ export default function Projects() {
                 </div>
 
                 <div className='w-full lg:w-1/2 relative order-1 lg:order-2'>
-                    <div className='aspect-video rounded-xl bg-gradient-to-br from-[#FF5A2D]/50 to-[#475F74]/50 p-1 overflow-hidden'>
+                    <div className='aspect-video rounded-xl bg-linear-to-br from-[#FF5A2D]/50 to-[#475F74]/50 p-1 overflow-hidden'>
                         <div className='relative w-full h-full rounded-lg overflow-hidden'>
                             <Image
                                 src="/images/project.png"

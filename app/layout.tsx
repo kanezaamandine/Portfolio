@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Caveat } from "next/font/google";
-import { Candal } from "next/font/google";
-import "./globals.css";
+import { Jost, Caveat } from '@next/font/google';
+import './globals.css';
 
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
+const jost = Jost({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jost',
 });
 
-const candal = Candal({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-candal",
+const caveat = Caveat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-caveat',
 });
 
 export const metadata: Metadata = {
@@ -27,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${candal.variable} ${caveat.variable} font-sans antialiased`}
+        className={`${jost.variable} ${caveat.variable} font-jost antialiased`}
       >
         {children}
       </body>
