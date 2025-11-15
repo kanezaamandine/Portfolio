@@ -101,7 +101,7 @@ const ProgressBar = ({ name, value }: { name: string; value: number }) => {
 
 export default function Skills() {
   return (
-    <div className="relative p-6 py-16 bg-[#0F0F0F] overflow-hidden">
+    <div id="skills" className="relative p-6 py-16 bg-[#0F0F0F] overflow-hidden">
       
       {[...Array(5)].map((_, i) => (
         <div
@@ -160,7 +160,7 @@ export default function Skills() {
               {otherSkills.map((tag, index) => (
                 <span
                   key={index}
-                  className="bg-[#FF451A] text-white font-semibold px-8 py-2 rounded-md text-xs h-8 shadow-sm hover:scale-105 transition"
+                  className="bg-[#FF451A] text-white font-semibold px-8 py-2 mr-4 mt-2 md:mr-0 md:mt-0 rounded-md text-xs h-8 shadow-sm hover:scale-105 transition"
                 >
                   {tag}
                 </span>

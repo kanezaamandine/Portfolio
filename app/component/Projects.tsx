@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Projects() {
     return (
-        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto bg-[#0F0F0F]">
+        <section id="projects" className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto bg-[#0F0F0F]">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
                     Featured <span className="text-[#FF451A]">Projects</span>
