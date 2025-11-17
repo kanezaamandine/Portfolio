@@ -7,12 +7,14 @@ import CallToAction from "./component/callToAction";
 import Skills from "./component/Skills";
 import Education from "./component/education";
 import Contact from "./component/Contact";
+import ProjectList from "./component/ProjectList";
 
 export default function Home() {
   return (
     <div className="bg-[#0F0F0F]">
       <HeroSection/>
        <About/>
+        <ProjectList/>
        <Projects/>
        <Clients/>
        <CallToAction/>

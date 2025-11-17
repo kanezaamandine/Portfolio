@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Jost, Caveat } from '@next/font/google';
+import { Jost, Caveat } from 'next/font/google';
 import './globals.css';
 
 const jost = Jost({

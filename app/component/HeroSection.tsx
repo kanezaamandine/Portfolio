@@ -101,7 +101,7 @@ export default function HeroSection() {
         className="flex justify-center w-full mb-8 md:mb-12"
       >
         <motion.p 
-          className="text-white/80 text-center text-sm sm:text-base border border-white/50 rounded-full bg-black backdrop-blur-sm px-4 py-2 cursor-pointer hover:bg-white/10 transition-colors"
+          className="text-white/80 text-center text-sm sm:text-base border border-white/50 rounded-full bg-black backdrop-blur-sm px-4 py-2 cursor-pointer hover:bg-white/10 shadow shadow-[#EA3402] transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           animate={{ y: [0, -8, 0] }}

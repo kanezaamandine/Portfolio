@@ -46,11 +46,11 @@ const itemVariants = {
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
       delay: i * 0.2
     }
   })
-};
+} as const;
 
 export default function Clients() {
   return (
