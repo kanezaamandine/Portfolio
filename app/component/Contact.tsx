@@ -1,8 +1,50 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Twitter, Instagram, Linkedin, ArrowUp, Send, User, Mail, Briefcase, FileText } from "lucide-react";
+
+const SLOW_DURATION = 1.0; 
+
+const slideLeftVariants: Variants = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { 
+    opacity: 1, 
+    x: 0, 
+    transition: { duration: SLOW_DURATION, ease: [0.16, 1, 0.3, 1] } 
+  }
+};
+
+const slideRightVariants: Variants = {
+  hidden: { opacity: 0, x: 100 },
+  visible: { 
+    opacity: 1, 
+    x: 0, 
+    transition: { duration: SLOW_DURATION, ease: [0.16, 1, 0.3, 1] } 
+  }
+};
+
+interface FooterItemProps {
+  children: React.ReactNode;
+  isRight: boolean;
+  delay?: number;
+}
+
+const FooterItem = ({ children, isRight, delay = 0 }: FooterItemProps) => {
+    const variants = isRight ? slideRightVariants : slideLeftVariants;
+    return (
+        <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={variants}
+            transition={{ duration: SLOW_DURATION, delay: delay }}
+        >
+            {children}
+        </motion.div>
+    );
+};
+
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -76,7 +118,7 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="Enter your name here"
                   required
-                  className="w-full px-0 py-1 bg-transparent text-[12px] border-b border-gray-500 text-white placeholder-white/40  focus:outline-none focus:border-[#FF451A] transition-colors duration-300"
+                  className="w-full px-0 py-1 bg-transparent text-[12px] border-b border-gray-500 text-white placeholder-white/40 focus:outline-none focus:border-[#FF451A] transition-colors duration-300"
                 />
               </div>
 
@@ -115,7 +157,7 @@ export default function Contact() {
                   value={formData.budget}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 text-white/40 text-sm  border-gray-600 focus:border-white/40 focus:ring-1 focus:ring-white/40 focus:outline-none transition-colors duration-200 cursor-pointer appearance-none"
+                  className="w-full px-3 py-2 text-white/40 text-sm border-gray-600 focus:border-white/40 focus:ring-1 focus:ring-white/40 focus:outline-none transition-colors duration-200 cursor-pointer appearance-none"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23FFFFFF66' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
                     backgroundPosition: "right 0.75rem center",
@@ -150,7 +192,7 @@ export default function Contact() {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-12 py-4 w-full bg-[#FF451A] text-white font-semibold rounded-full shadow-lg hover:bg-[#e03e16] focus:outline-none focus:ring-4 focus:ring-[#FF451A]/30 transition-all duration-300"
+                className="px-12 py-4 w-full bg-[#FF451A] cursor-pointer text-white font-semibold rounded-full shadow-lg hover:bg-[#e03e16] focus:outline-none focus:ring-4 focus:ring-[#FF451A]/30 transition-all duration-300"
               >
                 Send now!
               </motion.button>
@@ -160,103 +202,107 @@ export default function Contact() {
 
         <footer className="mt-24 pt-16 border-t border-[#D9D9D900]">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            <div className="space-y-12">
-              <div className="flex flex-col sm:flex-row sm:items-center md:justify-between gap-4 sm:gap-6">
-                <div className="flex flex-col gap-1">
-                  <h1 className="text-2xl md:text-3xl font-bold text-white">Amandine</h1>
-                  <div className="inline-block">
-                    <h2 className="text-xl md:text-[15px] font-medium text-[#FF451A] border border-white bg-white px-2 inline-block">Portfolio</h2>
+            <FooterItem isRight={false}>
+              <div className="space-y-12">
+                <div className="flex flex-col sm:flex-row sm:items-center md:justify-between gap-4 sm:gap-6">
+                  <div className="flex flex-col gap-1">
+                    <h1 className="text-2xl md:text-3xl font-bold text-white">Amandine</h1>
+                    <div className="inline-block">
+                      <h2 className="text-xl md:text-[15px] font-medium text-[#FF451A] border border-white bg-white px-2 inline-block">Portfolio</h2>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <a href="#" className="w-10 h-10 flex items-center justify-center hover:-translate-y-0.5 transition-colors">
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="w-10 h-10 flex items-center justify-center hover:-translate-y-0.5 transition-colors">
+                      <Instagram className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="w-10 h-10 flex items-center justify-center hover:-translate-y-0.5 transition-colors">
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="border-t border-white/10 pt-8"></div>
+
+                <div className="grid sm:grid-cols-3 gap-8 text-sm">
+                  <div>
+                    <h3 className="text-[#FF451A] font-semibold mb-4">Navigations</h3>
+                    <ul className="space-y-2 text-[#6C6C6C]">
+                      <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">About us</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">Projects</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">Personal skills</a></li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-[#FF451A] font-semibold mb-4">Deliverables</h3>
+                    <ul className="space-y-2 text-[#6C6C6C]">
+                      <li><a href="#" className="hover:text-white transition-colors">UI/UX Design</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">Software Solutions</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">AI / ML Solutions</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">IT Consultations</a></li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-[#FF451A] font-semibold mb-4">Legals</h3>
+                    <ul className="space-y-2 text-[#6C6C6C]">
+                      <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                      <li><a href="#" className="hover:text-white transition-colors">Services</a></li>
+                    </ul>
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <a href="#" className="w-10 h-10  flex items-center justify-center hover:-translate-y-0.5 transition-colors">
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="w-10 h-10 flex items-center justify-center hover:-translate-y-0.5 transition-colors">
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="w-10 h-10  flex items-center justify-center hover:-translate-y-0.5 transition-colors">
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                </div>
+                <button onClick={scrollToTop} className="flex items-center gap-2 text-sm text-[#FFFFFFCC] cursor-pointer hover:text-white transition-colors">
+                  Back to Top <ArrowUp className="w-4 h-4" />
+                </button>
               </div>
-              
-              <div className="border-t border-white/10 pt-8"></div>
+            </FooterItem>
 
-              <div className="grid sm:grid-cols-3 gap-8 text-sm">
-                <div>
-                  <h3 className="text-[#FF451A] font-semibold mb-4">Navigations</h3>
-                  <ul className="space-y-2 text-[#6C6C6C]">
-                    <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">About us</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Projects</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Personal skills</a></li>
-                  </ul>
-                </div>
+            <FooterItem isRight={true} delay={0.2}> 
+              <div className="p-8 md:p-10 border border-[#2b2727]">
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">Reach us!</h2>
 
-                <div>
-                  <h3 className="text-[#FF451A] font-semibold mb-4">Deliverables</h3>
-                  <ul className="space-y-2 text-[#6C6C6C]">
-                    <li><a href="#" className="hover:text-white transition-colors">UI/UX Design</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Software Solutions</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">AI / ML Solutions</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">IT Consultations</a></li>
-                  </ul>
-                </div>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3 border-b border-gray-500">
+                      <User className="w-4 h-4 text-white" />
+                      <input type="text" placeholder="Firstname" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
+                    </div>
+                    <div className="flex items-center gap-3 border-b border-gray-500">
+                      <User className="w-4 h-4 text-white" />
+                      <input type="text" placeholder="Lastname" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
+                    </div>
+                  </div>
 
-                <div>
-                  <h3 className="text-[#FF451A] font-semibold mb-4">Legals</h3>
-                  <ul className="space-y-2 text-[#6C6C6C]">
-                    <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Services</a></li>
-                  </ul>
-                </div>
+                  <div className="flex items-center gap-3 border-b border-gray-500">
+                    <Mail className="w-4 h-4 text-white" />
+                    <input type="email" placeholder="Your email" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
+                  </div>
+
+                  <div className="flex items-center gap-3 border-b border-gray-500">
+                    <Briefcase className="w-4 h-4 text-white" />
+                    <input type="text" placeholder="Project name" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
+                  </div>
+
+                  <div className="flex items-start gap-3 border-b border-gray-500">
+                    <FileText className="w-4 h-4 text-white mt-1" />
+                    <textarea placeholder="Project Description" rows={3} required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none resize-none py-1" />
+                  </div>
+
+                  <div className="pt-4">
+                    <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="px-8 py-3 border border-[#6C6C6C] cursor-pointer text-[#6C6C6C] font-medium hover:bg-white/80 transition-colors flex items-center gap-2">
+                      Submit <Send className="w-4 h-4" />
+                    </motion.button>
+                  </div>
+                </form>
               </div>
-
-              <button onClick={scrollToTop} className="flex items-center gap-2 text-sm text-[#FFFFFFCC] hover:text-white transition-colors">
-                Back to Top <ArrowUp className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="p-8 md:p-10 border border-[#2b2727]">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">Reach us!</h2>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 border-b border-gray-500">
-                    <User className="w-4 h-4 text-white" />
-                    <input type="text" placeholder="Firstname" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
-                  </div>
-                  <div className="flex items-center gap-3 border-b border-gray-500">
-                    <User className="w-4 h-4 text-white" />
-                    <input type="text" placeholder="Lastname" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 border-b border-gray-500">
-                  <Mail className="w-4 h-4 text-white" />
-                  <input type="email" placeholder="Your email" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
-                </div>
-
-                <div className="flex items-center gap-3 border-b border-gray-500">
-                  <Briefcase className="w-4 h-4 text-white" />
-                  <input type="text" placeholder="Project name" required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none py-1" />
-                </div>
-
-                <div className="flex items-start gap-3 border-b border-gray-500">
-                  <FileText className="w-4 h-4 text-white mt-1" />
-                  <textarea placeholder="Project Description" rows={3} required className="flex-1 bg-transparent text-white placeholder-[#FFFFFFCC] focus:outline-none resize-none py-1" />
-                </div>
-
-                <div className="pt-4 cursor-pointer">
-                  <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="px-8 py-3 border border-[#6C6C6C] text-[#6C6C6C] font-medium hover:bg-white/80 transition-colors flex items-center gap-2">
-                    Submit <Send className="w-4 h-4" />
-                  </motion.button>
-                </div>
-              </form>
-            </div>
+            </FooterItem>
           </div>
         </footer>
       </div>

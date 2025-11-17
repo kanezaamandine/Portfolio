@@ -1,5 +1,8 @@
+"use client";
+
 import { Zap } from 'lucide-react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export default function Projects() {
     return (
@@ -12,7 +15,13 @@ export default function Projects() {
             </div>
 
             <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-                <div className="w-full lg:w-1/2 space-y-4 lg:space-y-6 order-2 lg:order-1">
+                <motion.div 
+                    initial={{ opacity: 0, x: -100 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+                    transition={{ duration: 1.2, ease: [0.16, 0.77, 0.47, 0.97] }}
+                    className="w-full lg:w-1/2 space-y-4 lg:space-y-6 order-2 lg:order-1"
+                >
                     <div className="bg-[#EA3402] rounded-md py-2 px-3 w-fit">
                         <p className="flex items-center gap-2">
                             <Zap size={14} color='black' fill='black' className="shrink-0" />
@@ -23,12 +32,18 @@ export default function Projects() {
                     <p className='text-white/90 text-sm md:text-base leading-relaxed'>
                         Redefining movement with smarter, faster, and greener transport solutions.
                     </p>
-                    <button className="mt-4 bg-[#EA3402] hover:bg-[#ff4d1a] text-white px-6 py-3 rounded-full font-medium transition-colors duration-200">
+                    <button className="mt-4 bg-[#EA3402] hover:bg-[#ff4d1a] text-white px-6 py-3 rounded-full cursor-pointer font-medium transition-colors duration-200">
                         View Project
                     </button>
-                </div>
+                </motion.div>
 
-                <div className='w-full lg:w-1/2 relative order-1 lg:order-2'>
+                <motion.div 
+                    initial={{ opacity: 0, x: 100 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+                    transition={{ duration: 1.2, ease: [0.16, 0.77, 0.47, 0.97], delay: 0.2 }}
+                    className='w-full lg:w-1/2 relative order-1 lg:order-2'
+                >
                     <div className='aspect-video rounded-xl bg-linear-to-br from-[#FF5A2D]/50 to-[#475F74]/50 p-1 overflow-hidden'>
                         <div className='relative w-full h-full rounded-lg overflow-hidden'>
                             <Image
@@ -41,7 +56,7 @@ export default function Projects() {
                             />
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

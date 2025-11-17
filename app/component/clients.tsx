@@ -2,6 +2,7 @@
 
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const clients = [
   {
@@ -26,6 +27,30 @@ const clients = [
     role: "Startup Founder",
   },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.2
+    }
+  }
+} as const;
+
+const itemVariants = {
+  hidden: { x: -100, opacity: 0 },
+  visible: (i: number) => ({
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1],
+      delay: i * 0.2
+    }
+  })
+};
 
 export default function Clients() {
   return (
@@ -54,19 +79,46 @@ export default function Clients() {
         />
       ))}
 
-      <div className="relative max-w-5xl mx-auto px-4 mt-10 z-10">
-        <div className="text-center mb-12 md:mb-16">
+      <motion.div 
+        className="relative max-w-5xl mx-auto px-4 mt-10 z-10"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+        variants={containerVariants}
+      >
+        <motion.div 
+          className="text-center mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+          transition={{ duration: 0.8 }}
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
             What My <span className="text-[#FF451A]">Clients Say</span>
           </h2>
-          <div className="w-16 h-1 bg-white mx-auto rounded-full"></div>
-        </div>
+          <motion.div 
+            className="w-16 h-1 bg-white mx-auto rounded-full"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          />
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          variants={containerVariants}
+        >
           {clients.map((client, index) => (
-            <div
+            <motion.div
               key={index}
               className="relative group bg-linear-to-br from-[#0F0F0F] to-[#1A1A1A] rounded-2xl p-6 md:p-8 shadow-lg shadow-[#FF451A]/10 transition-all duration-300 border border-white/5"
+              custom={index}
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-10% 0px" }}
+              whileHover={{ x: 5, transition: { duration: 0.3 } }}
             >
               <div className="flex mb-4">
                 {[...Array(5)].map((_, i) => (
@@ -94,13 +146,17 @@ export default function Clients() {
                 </div>
               </div>
 
-              <div className="absolute -top-4 -right-4 h-16 w-16 bg-[#FF451A] rounded-full flex items-center justify-center text-white text-4xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <motion.div 
+                className="absolute -top-4 -right-4 h-16 w-16 bg-[#FF451A] rounded-full flex items-center justify-center text-white text-4xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                initial={{ scale: 0.5, rotate: -10 }}
+                whileHover={{ scale: 1.1, rotate: 0 }}
+              >
                 "
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

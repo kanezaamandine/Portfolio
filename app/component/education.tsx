@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const educationData = [
   { year: "2024-2027", school: "Rwanda Coding Academy", description: "Software Development & Embedded Systems combining design with technical foundations." },
@@ -29,59 +29,150 @@ const faqs = [
   { question: "Why should you choose me as your very first choice?", answer: "Repeat clients choose me because I overdeliver. Every project includes free revisions, performance insights, and post-launch support. I’m not done when the design is — I’m done when you succeed." },
 ];
 
-const TimelineItem = ({ year, title, description }: { year: string; title: string; description: string }) => (
-  <div className="relative flex items-center gap-6 mb-12 group">
-    <div className="relative flex flex-col items-center">
-      <div className="w-4 h-4 rounded-full bg-white group-hover:bg-[#FF451A] transition-colors duration-300 z-10" />
-    </div>
-    <div className="flex-1 bg-[#0F0F0F] p-4 md:p-5 rounded-lg border border-gray-800 hover:border-[#FF451A] transition-colors duration-300">
-      <p className="text-[#FF451A] text-sm font-semibold mb-1">{year}</p>
-      <h3 className="font-semibold text-white mb-1">{title}</h3>
-      <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
-    </div>
-  </div>
-);
+const SLOW_DURATION = 1.0; 
+const SLOW_STAGGER = 0.3; 
+
+const slideLeftVariants: Variants = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { 
+    opacity: 1, 
+    x: 0, 
+    transition: { duration: SLOW_DURATION, ease: [0.16, 1, 0.3, 1] } 
+  },
+};
+
+const slideRightVariants: Variants = {
+  hidden: { opacity: 0, x: 100 },
+  visible: { 
+    opacity: 1, 
+    x: 0, 
+    transition: { duration: SLOW_DURATION, ease: [0.16, 1, 0.3, 1] } 
+  },
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: SLOW_STAGGER,
+    },
+  },
+};
+
+const TimelineItem = ({ year, title, description, index, isRight = false }: { year: string; title: string; description: string; index: number; isRight?: boolean }) => {
+  const variants: Variants = {
+    hidden: (isRight: boolean) => ({ 
+      opacity: 0, 
+      x: isRight ? 100 : -100 
+    }),
+    visible: (i: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: i * SLOW_STAGGER, 
+        duration: SLOW_DURATION, 
+        ease: [0.16, 1, 0.3, 1]
+      }
+    })
+  };
+
+  const dotVariants: Variants = {
+    hidden: { 
+      scale: 0, 
+      opacity: 0 
+    },
+    visible: (i: number) => ({
+      scale: 1,
+      opacity: 1,
+      transition: {
+        delay: i * SLOW_STAGGER + 0.1, 
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    })
+  };
+
+  return (
+    <motion.div 
+      className="relative flex items-center gap-6 mb-12 group"
+      custom={index}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+      variants={variants}
+    >
+      <div className="relative flex flex-col items-center">
+        <motion.div 
+          className="w-4 h-4 rounded-full bg-white group-hover:bg-[#FF451A] transition-colors duration-300 z-10"
+          custom={index}
+          variants={dotVariants}
+        />
+      </div>
+      <div className="flex-1 bg-[#0F0F0F] p-4 md:p-5 rounded-lg border border-gray-800 hover:border-[#FF451A] transition-colors duration-300">
+        <p className="text-[#FF451A] text-sm font-semibold mb-1">{year}</p>
+        <h3 className="font-semibold text-white mb-1">{title}</h3>
+        <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
+      </div>
+    </motion.div>
+  );
+};
 
 const FAQCard = ({
   question,
   answer,
   isOpen,
   onToggle,
+  index,
 }: {
   question: string;
   answer: string;
   isOpen: boolean;
   onToggle: () => void;
-}) => (
-  <div className="relative bg-[#1A1A1A] rounded-2xl p-6 border border-gray-800 hover:border-[#FF451A]/50 transition-all duration-300 overflow-visible">
-    <button
-      onClick={onToggle}
-      className="w-full text-left flex items-center justify-between gap-4 group relative z-10"
-    >
-      <p className="text-gray-200 text-sm md:text-base font-medium pr-2 group-hover:text-white transition-colors">
-        {question}
-      </p>
-      <motion.div
-        animate={{ rotate: isOpen ? 45 : 0 }}
-        transition={{ duration: 0.3 }}
-        className="shrink-0 w-8 h-8 rounded-full bg-[#FF451A] flex items-center justify-center"
-      >
-        <span className="text-white text-lg font-bold">{isOpen ? "-" : "+"}</span>
-      </motion.div>
-    </button>
+  index: number;
+}) => {
+  const isLeft = index % 2 === 0;
+
+  const variants = isLeft ? slideLeftVariants : slideRightVariants;
+
+  return (
     <motion.div
-      initial={false}
-      animate={{
-        height: isOpen ? "auto" : 0,
-        opacity: isOpen ? 1 : 0,
-      }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="absolute left-0 right-0 top-full mt-2 bg-[#1A1A1A] p-6 rounded-2xl border border-gray-800 shadow-lg z-20 overflow-hidden"
+      className="relative bg-[#1A1A1A] rounded-2xl p-6 border border-gray-800 hover:border-[#FF451A]/50 transition-all duration-300 overflow-visible"
+      custom={index}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={variants}
     >
-      <p className="text-gray-400 text-sm leading-relaxed">{answer}</p>
+      <button
+        onClick={onToggle}
+        className="w-full text-left flex items-center justify-between gap-4 group relative z-10"
+      >
+        <p className="text-gray-200 text-sm md:text-base font-medium pr-2 group-hover:text-white transition-colors">
+          {question}
+        </p>
+        <motion.div
+          animate={{ rotate: isOpen ? 45 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="shrink-0 w-8 h-8 rounded-full bg-[#FF451A] flex items-center justify-center"
+        >
+          <span className="text-white text-lg cursor-pointer font-bold">{isOpen ? "-" : "+"}</span>
+        </motion.div>
+      </button>
+      <motion.div
+        initial={false}
+        animate={{
+          height: isOpen ? "auto" : 0,
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="absolute left-0 right-0 top-full mt-2 bg-[#1A1A1A] p-6 rounded-2xl border border-gray-800 shadow-lg z-20 overflow-hidden"
+      >
+        <p className="text-gray-400 text-sm leading-relaxed">{answer}</p>
+      </motion.div>
     </motion.div>
-  </div>
-);
+  );
+};
 
 export default function Education() {
   const half = Math.ceil(tags.length / 2);
@@ -107,7 +198,13 @@ export default function Education() {
             <div className="relative">
               <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-700" />
               {educationData.map((edu, i) => (
-                <TimelineItem key={`edu-${i}`} year={edu.year} title={edu.school} description={edu.description} />
+                <TimelineItem 
+                  key={`edu-${i}`} 
+                  year={edu.year} 
+                  title={edu.school} 
+                  description={edu.description} 
+                  index={i}
+                />
               ))}
             </div>
           </div>
@@ -118,12 +215,19 @@ export default function Education() {
             <div className="relative">
               <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-700" />
               {workData.map((work, i) => (
-                <TimelineItem key={`work-${i}`} year={work.year} title={work.role} description={work.description} />
+                <TimelineItem 
+                  key={`work-${i}`} 
+                  year={work.year} 
+                  title={work.role} 
+                  description={work.description} 
+                  index={i}
+                  isRight={true} 
+                />
               ))}
             </div>
           </div>
         </div>
-
+        
         <div className="relative mt-20">
           <div className="pointer-events-none absolute inset-0 z-0">
             {[...Array(3)].map((_, i) => (
@@ -138,15 +242,28 @@ export default function Education() {
             <h2 className="text-center text-2xl md:text-3xl font-bold mb-8">Best of the best</h2>
             <div className="bg-linear-to-b from-[#1A1A1A] to-[#0F0F0F] rounded-2xl p-6 md:p-10 lg:p-12 shadow-2xl border border-gray-800">
               <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div className="relative">
+                <motion.div 
+                  className="relative"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={slideLeftVariants}
+                >
                   <div className="relative z-10">
                     <Image src="/images/mockup.png" alt="Sapient App Mockup" width={600} height={400} className="rounded-lg shadow-xl w-full" />
                   </div>
                   <div className="absolute inset-0 -z-10 blur-3xl">
                     <div className="w-full h-full bg-[#FF451A]/10 rounded-full" />
                   </div>
-                </div>
-                <div className="flex flex-col justify-center space-y-6 relative z-10">
+                </motion.div>
+
+                <motion.div 
+                  className="flex flex-col justify-center space-y-6 relative z-10"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={slideRightVariants}
+                >
                   <div className="flex items-center justify-center lg:justify-start">
                     <div className="bg-white/10 backdrop-blur-sm rounded-full p-4">
                       <Image src="/images/pc.png" alt="Sapient Logo" width={64} height={64} className="rounded-xl" />
@@ -166,7 +283,7 @@ export default function Education() {
                       View Design
                     </a>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
 
@@ -202,11 +319,25 @@ export default function Education() {
                 Helping you understand our process and why choose me from others
               </p>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 relative z-10">
+
+            <motion.div 
+              className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 relative z-10"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={staggerContainer}
+            >
               {faqs.map((faq, i) => (
-                <FAQCard key={i} question={faq.question} answer={faq.answer} isOpen={openIndex === i} onToggle={() => handleToggle(i)} />
+                <FAQCard 
+                  key={i} 
+                  question={faq.question} 
+                  answer={faq.answer} 
+                  isOpen={openIndex === i} 
+                  onToggle={() => handleToggle(i)} 
+                  index={i} 
+                />
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

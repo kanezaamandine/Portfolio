@@ -100,8 +100,40 @@ const ProgressBar = ({ name, value }: { name: string; value: number }) => {
 };
 
 export default function Skills() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  } as const;
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: (i: number = 0) => ({
+      y: 0,
+      opacity: 1,
+      transition: { 
+        duration: 0.6, 
+        ease: [0.16, 1, 0.3, 1],
+        delay: i * 0.1
+      }
+    })
+  } as const;
+
   return (
-    <div id="skills" className="relative p-6 py-16 bg-[#0F0F0F] overflow-hidden">
+    <motion.div 
+      id="skills" 
+      className="relative p-6 py-16 bg-[#0F0F0F] overflow-hidden"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+      variants={containerVariants}
+    >
       
       {[...Array(5)].map((_, i) => (
         <div
@@ -127,55 +159,120 @@ export default function Skills() {
 
       <div className="relative container max-w-5xl mx-auto z-10">
 
-        <div className="flex flex-col justify-center items-center gap-2 mb-16">
-          <h3 className="font-bold text-white text-2xl">
+        <motion.div 
+          className="flex flex-col justify-center items-center gap-2 mb-16"
+          variants={itemVariants}
+        >
+          <motion.h3 
+            className="font-bold text-white text-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+            transition={{ duration: 0.8 }}
+          >
             My Personal <span className="text-[#FF451A]">Skills</span>
-          </h3>
-          <div className="w-16 h-1 rounded-full bg-white my-2"></div>
-          <p className="text-sm text-[#6C6C6C] my-2 max-w-2xl text-center">
+          </motion.h3>
+          <motion.div 
+            className="w-16 h-1 rounded-full bg-white my-2"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          />
+          <motion.p 
+            className="text-sm text-[#6C6C6C] my-2 max-w-2xl text-center"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             Design is my language ---- impact is my goal. I am turning ideas into intuitive experiences by crafting pixels that tell a story
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12"
+          variants={containerVariants}
+        >
           {skills.map((skill, index) => (
             <motion.div
               key={skill.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              custom={index}
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-10% 0px" }}
             >
               <CircularProgress percentage={skill.percentage} label={skill.name} />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="mt-24">
-          <h3 className="font-bold text-white text-2xl  mb-6 text-center">
+        <motion.div 
+          className="mt-24"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <motion.h3 
+            className="font-bold text-white text-2xl mb-6 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             Other <span className="text-[#FF451A]">Skill Areas</span>
-          </h3>
+          </motion.h3>
 
-          <div className="grid md:grid-cols-2 gap-20 mt-8">
-            <div className="flex flex-wrap gap-x-1 justify-center md:justify-end">
+          <motion.div 
+            className="grid md:grid-cols-2 gap-20 mt-8"
+            variants={containerVariants}
+          >
+            <motion.div 
+              className="flex flex-wrap gap-x-1 justify-center md:justify-end"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               {otherSkills.map((tag, index) => (
-                <span
+                <motion.span
                   key={index}
                   className="bg-[#FF451A] text-white font-semibold px-8 py-2 mr-4 mt-2 md:mr-0 md:mt-0 rounded-md text-xs h-8 shadow-sm hover:scale-105 transition"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
                 >
                   {tag}
-                </span>
+                </motion.span>
               ))}
-            </div>
+            </motion.div>
 
-            <div className="space-y-6">
+            <motion.div 
+              className="space-y-6"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
               {progressSkills.map((skill, index) => (
-                <ProgressBar key={index} name={skill.name} value={skill.value} />
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
+                >
+                  <ProgressBar name={skill.name} value={skill.value} />
+                </motion.div>
               ))}
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
       </div>
-    </div>
+   </motion.div>
   );
 }

@@ -107,7 +107,7 @@ export default function HeroSection() {
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          Hello fam!
+          Hello fam!👋
         </motion.p>
       </motion.div>
 
