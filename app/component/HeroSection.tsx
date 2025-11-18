@@ -135,7 +135,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 1 }}
-              className="text-4xl md:text-7xl relative z-20 pt-2" 
+              className="text-4xl md:text-7xl relative z-20 pt-2 md:ml-4" 
               style={{ fontFamily: 'var(--font-caveat)' }}
             >
               I'm{" "}
@@ -164,7 +164,7 @@ export default function HeroSection() {
                     hidden: { opacity: 0, y: 50, rotateX: -90 },
                     visible: { opacity: 1, y: 0, rotateX: 0, transition: { type: "spring", stiffness: 100, damping: 12 } }
                   }}
-                  className={letter === "E" ? "text-[#EA3402] inline-block" : "inline-block"}
+                  className={letter === "E" ? "text-[#EA3402] inline-block ml-4" : "inline-block ml-4"}
                   style={{ display: 'inline-block' }}
                 >
                   {letter}
@@ -178,10 +178,10 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 2.2 }}
               className="flex flex-col gap-8 md:flex-row md:justify-start mt-2 w-full"
             >
-              <p className="text-[#FFFFFFCC] max-w-sm text-base mx-auto md:mx-0 md:max-w-xs">
+              <p className="text-[#FFFFFFCC] max-w-sm text-base mx-auto md:ml-8 md:max-w-xs ">
                 I craft meaningful digital experiences that connect creativity with functionality to help brands stand out through design and seamless user experience.
               </p>
-              <motion.div 
+              {/* <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 2.4, type: "spring", stiffness: 200 }}
@@ -193,12 +193,12 @@ export default function HeroSection() {
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="border border-black text-black px-6 md:px-10 py-2 rounded-full hover:bg-gray-100 cursor-pointer transition text-sm md:text-base">
                   Hire Me
                 </motion.button>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
           </div>
         </div>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 2 }}
@@ -215,10 +215,10 @@ export default function HeroSection() {
               Let's talk &rarr;
             </motion.button>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
 
-      <motion.div 
+      {/* <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.8, duration: 0.8 }}
@@ -259,7 +259,7 @@ export default function HeroSection() {
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
